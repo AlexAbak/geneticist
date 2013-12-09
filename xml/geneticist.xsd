@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://deneblingvo.org/xsd/geneticist/1.0" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0">
+
+    <element name="geneticist" type="gen:geneticist"></element>
+
+    <complexType name="geneticist">
+    	<sequence>
+    		<element name="operators" type="gen:operators"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="operators">
+    	<sequence minOccurs="1" maxOccurs="unbounded">
+    		<element name="operator" type="gen:operator"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="operator">
+    	<sequence>
+    		<element name="parameters" type="gen:parameters"></element>
+    		<element name="format" type="string"></element>
+    	</sequence>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="output" type="gen:type" use="required"></attribute>
+    </complexType>
+
+    <complexType name="parameters">
+    	<sequence minOccurs="1" maxOccurs="unbounded">
+    		<element name="parameter" type="gen:parameter"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="parameter">
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="type" type="gen:type" use="required"></attribute>
+    	<attribute name="ref" type="string"></attribute>
+    	<attribute name="isVar" type="boolean"></attribute>
+    </complexType>
+
+    <simpleType name="type">
+    	<restriction base="string">
+    		<enumeration value="void"></enumeration>
+    		<enumeration value="byte"></enumeration>
+    		<enumeration value="short"></enumeration>
+    		<enumeration value="int"></enumeration>
+    		<enumeration value="long"></enumeration>
+    		<enumeration value="char"></enumeration>
+    		<enumeration value="integer"></enumeration>
+    		<enumeration value="float"></enumeration>
+    		<enumeration value="double"></enumeration>
+    		<enumeration value="floating"></enumeration>
+    		<enumeration value="boolean"></enumeration>
+    		<enumeration value="String"></enumeration>
+    		<enumeration value="all"></enumeration>
+    		<enumeration value="ref"></enumeration>
+    	</restriction>
+    </simpleType>
+
+</schema>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen:geneticist xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://deneblingvo.org/xsd/geneticist/1.0 geneticist.xsd ">
+  <gen:operators>
+    <gen:operator name="assignment" output="void">
+    	<gen:parameters >
+    		<gen:parameter name="first" type="all" ></gen:parameter>
+    		<gen:parameter name="second" type="ref" ref="first"
+    			isVar="true" /></gen:parameters>
+    	<gen:format>{$second} = {$first};
+</gen:format>
+    </gen:operator>
+
+    <gen:operator name="equal" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} == {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="notEqual" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} != {$second})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="not" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>(!{$first})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="and" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} &amp; {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="or" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} | {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="andLazy" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} &amp;&amp; {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="orLazy" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} || {$second})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="if" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="boolean" />
+    		<gen:parameter name="third" type="boolean" />
+    	</gen:parameters>
+    	<gen:format>({$first} ? {$second} : {$third})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="positive" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(+{$first})</gen:format>
+    </gen:operator>
+    <gen:operator name="negative" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(-{$first})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="less" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} &lt; {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="lessOrEqual" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} &lt;= {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="more" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} &gt; {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="moreOrEqual" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} &gt;= {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="equal" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} == {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="notEqual" output="boolean">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} != {$second})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="addition" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} + {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="subtraction" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} - {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="multiplication" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} * {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="division" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} / {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="remainder" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} % {$second})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="prefixIncrement" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(++{$first})</gen:format>
+    </gen:operator>
+    <gen:operator name="prefixDecrement" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(--{$first})</gen:format>
+    </gen:operator>
+    <gen:operator name="postfixIncrement" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first}++)</gen:format>
+    </gen:operator>
+    <gen:operator name="postfixDecrement" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first}--)</gen:format>
+    </gen:operator>
+
+    <gen:operator name="shiftLeft" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(&lt;&lt;{$first})</gen:format>
+    </gen:operator>
+    <gen:operator name="shiftRight" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(&gt;&gt;{$first})</gen:format>
+    </gen:operator>
+    <gen:operator name="shiftRightSigned" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(&gt;&gt;&gt;{$first})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="not" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    	</gen:parameters>
+    	<gen:format>(~{$first})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="and" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} &amp; {$second})</gen:format>
+    </gen:operator>
+    <gen:operator name="or" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="integer" />
+    		<gen:parameter name="second" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} | {$second})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="if" output="integer">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="integer" />
+    		<gen:parameter name="third" type="integer" />
+    	</gen:parameters>
+    	<gen:format>({$first} ? {$second} : {$third})</gen:format>
+    </gen:operator>
+
+    <gen:operator name="if" output="void">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="void" />
+    		<gen:parameter name="third" type="void" />
+    	</gen:parameters>
+    	<gen:format>if {$first} {
+  {$second}
+} else {
+  {$third}
+}
+</gen:format>
+    </gen:operator>
+    <gen:operator name="while" output="void">
+    	<gen:parameters>
+    		<gen:parameter name="first" type="boolean" />
+    		<gen:parameter name="second" type="void" />
+    	</gen:parameters>
+    	<gen:format>while {$first} {
+  {$second}
+}
+</gen:format>
+    </gen:operator>
+    
+  </gen:operators>
+</gen:geneticist>
