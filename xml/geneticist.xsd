@@ -6,6 +6,7 @@
     <complexType name="geneticist">
     	<sequence>
     		<element name="operators" type="gen:operators"></element>
+    		<element name="connections" type="gen:connections"></element>
     	</sequence>
     </complexType>
 
@@ -18,10 +19,10 @@
     <complexType name="operator">
     	<sequence>
     		<element name="parameters" type="gen:parameters"></element>
+    		<element name="output" type="gen:type"></element>
     		<element name="format" type="string"></element>
     	</sequence>
     	<attribute name="name" type="string" use="required"></attribute>
-    	<attribute name="output" type="gen:type" use="required"></attribute>
     </complexType>
 
     <complexType name="parameters">
@@ -31,13 +32,38 @@
     </complexType>
 
     <complexType name="parameter">
+    	<sequence>
+    		<element name="type" type="gen:type"></element>
+    	</sequence>
     	<attribute name="name" type="string" use="required"></attribute>
-    	<attribute name="type" type="gen:type" use="required"></attribute>
-    	<attribute name="ref" type="string"></attribute>
-    	<attribute name="isVar" type="boolean"></attribute>
     </complexType>
 
-    <simpleType name="type">
+    <complexType name="connections">
+    	<sequence minOccurs="1" maxOccurs="unbounded">
+    		<element name="connection" type="gen:connection"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="connection">
+    	<sequence>
+    		<element name="type" type="gen:type"></element>
+    		<element name="types" type="gen:types"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="types">
+    	<sequence minOccurs="1" maxOccurs="unbounded">
+    		<element name="type" type="gen:type"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="type">
+    	<attribute name="kind" type="gen:kind" use="required"></attribute>
+    	<attribute name="var" type="boolean"></attribute>
+    	<attribute name="ref" type="string"></attribute>
+    </complexType>
+
+    <simpleType name="kind">
     	<restriction base="string">
     		<enumeration value="void"></enumeration>
     		<enumeration value="byte"></enumeration>

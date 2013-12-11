@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import java.lang.Runtime;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -14,9 +16,16 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.xml.sax.SAXException;
+
+import org.deneblingvo.geneticist.Algorithm;
 import org.deneblingvo.geneticist.Geneticist;
+import org.deneblingvo.geneticist.Operator;
+import org.deneblingvo.geneticist.Type;
 import org.deneblingvo.serialization.xml.Reader;
+
+import net.sf.saxon.xpath.XPathFactoryImpl;
 
 /**
  * @author alex
@@ -42,13 +51,40 @@ public class GeneticistTest {
 	public void test() throws NoSuchFieldException, SecurityException, InstantiationException, IllegalAccessException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
 		File file = new File("../xml/geneticist.xml");
 		FileInputStream stream = new FileInputStream(file);
-		Reader reader = new Reader();
+		Reader reader = new Reader(new XPathFactoryImpl());
 		Geneticist object = new Geneticist();
 		reader.read(stream, object);
 		Assert.assertNotNull(object.operators);
 		Assert.assertEquals(35, object.operators.size());
 		Assert.assertNotNull(object.operators.get(0));
 		Assert.assertEquals("assignment", object.operators.get(0).name);
+		Assert.assertEquals("void", object.operators.get(0).output.kind);
+		Operator v1 = Algorithm.getIntegerInput(1);
+		Operator v2 = Algorithm.getIntegerInput(2);
+		Operator v3 = Algorithm.getIntegerInput(3);
+		Operator bTrue = Algorithm.getConst("true", "boolean");
+		Operator bFalse = Algorithm.getConst("false", "boolean");
+		object.operators.add(v1);
+		object.operators.add(v2);
+		object.operators.add(v3);
+		object.operators.add(bTrue);
+		object.operators.add(bFalse);
+		Type type = new Type();
+		type.kind = "void";
+		type.var = false;
+		type.ref = "";
+		Algorithm a = Algorithm.randomAlgorithmCount(object, type, 0, 10);
+		if (a != null) {
+			System.out.println(a.asString());
+			a.asClass("1", "template.java", "src/org/deneblingvo/geneticist/AlgorithmTest1.java");
+			Runtime runtime = Runtime.getRuntime();
+			runtime.exec("javac -classpath src -d bin src/org/deneblingvo/geneticist/AlgorithmTest1.java");
+		} else {
+			System.out.println("null");
+		}
 	}
 
+	public void test(int v1, int v2) {
+
+	}
 }
