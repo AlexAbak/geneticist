@@ -91,7 +91,7 @@ public class Algorithm
 	}
 	
 	public static Algorithm randomAlgorithm(Geneticist geneticist, Type type, int deep) {
-		if (deep > 20) {
+		if (deep > 10) {
 			return null;
 		}
 		Vector<Operator> typeOperators = new Vector<Operator>();
@@ -138,12 +138,11 @@ public class Algorithm
 		return temp;
 	}
 
-	public String FileToString(String fileName) {
+	public String FileToString(File file) {
 		String s = "";
 		InputStreamReader isr = null;
 		try {
-			File f = new File(fileName);
-			f = new File(f.getAbsolutePath());
+			File f = new File(file.getCanonicalPath());
 			final int length = (int) f.length();
 			if (length != 0) {
 				char[] cbuf = new char[length];
@@ -165,12 +164,11 @@ public class Algorithm
 		return s;
 	}
 
-	public void StringToFile(String fileName, String source) {
+	public void StringToFile(File file, String source) {
 		FileWriter writeFile = null;
 		try {
-			File logFile = new File(fileName);
-			logFile = new File(logFile.getAbsolutePath());	
-			writeFile = new FileWriter(logFile);
+			File destFile = new File(file.getCanonicalPath());	
+			writeFile = new FileWriter(destFile);
 			writeFile.write(source);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -185,21 +183,29 @@ public class Algorithm
 		}
 	}
 
-	public void asJava(String number, String template, String result) {
-		String s = FileToString(template);
-		s = s.replace("{$number}", number);
+	public void asJava(File rootDir, String template, String qualifiedClassName) {
+		File templateFile = new File(rootDir, template);
+		String s = FileToString(templateFile);
+		QualifiedClass qualifiedClass = new QualifiedClass(rootDir, qualifiedClassName); 
+		s = s.replace("{$package}", qualifiedClass.packageName);
+		s = s.replace("{$class}", qualifiedClass.className);
 		s = s.replace("{$code}", this.asString());
-		StringToFile(result, s);
+		File classSrcDir = qualifiedClass.getClassSrcDir();
+		classSrcDir.mkdirs();
+		File javaFile = qualifiedClass.getJavaFile();
+		StringToFile(javaFile, s);
 	}
 
-	public void asClass(String number, String template, String result) {
-		this.asJava(number, template, result);
+	public void asClass(File rootDir, String template, String qualifiedClassName) {
+		this.asJava(rootDir, template, qualifiedClassName);
 		try {
-			File source_dir = new File(System.getProperty("user.dir"));
-			File bin_dir = new File(source_dir.getAbsolutePath() + "/bin");
-			bin_dir.mkdir();
-			ProcessBuilder procBuilder = new ProcessBuilder("javac", "-classpath", "src", "-d", "bin", result);
-			procBuilder.directory(source_dir);
+			QualifiedClass qualifiedClass = new QualifiedClass(rootDir, qualifiedClassName); 
+			File binDir = new File(rootDir.getCanonicalPath(), "bin");
+			File srcDir = new File(rootDir.getCanonicalPath(), "src");
+			binDir.mkdirs();
+			File javaFile = qualifiedClass.getJavaFile();
+			ProcessBuilder procBuilder = new ProcessBuilder("javac", "-classpath", srcDir.getPath(), "-d", binDir.getPath(), javaFile.getPath());
+			procBuilder.directory(rootDir);
 			procBuilder.redirectErrorStream(true);
 			Process process = procBuilder.start();
 			InputStream stdout = process.getInputStream();
@@ -217,21 +223,14 @@ public class Algorithm
 		}
 	}
 
-	public Object asObject(String number, String template, String result) {
-		//this.asClass(number, template, result);
-		File sourceDir = new File(System.getProperty("user.dir"));
-		File binDir = new File(sourceDir.getAbsolutePath() + "/bin");
-		File resultFile = new File(sourceDir.getAbsolutePath() + "/" + result);
-		//String modulePath = binDir.getAbsolutePath();
-		String modulePath = resultFile.getParent().replace("src", "bin") + "/";
-		String module = resultFile.getName();
-		String moduleName = module.split(".java")[0];
-		ModuleLoader loader = new ModuleLoader(modulePath, ClassLoader.getSystemClassLoader());
+	public Object asObject(File rootDir, String template, String qualifiedClassName) {
+		this.asClass(rootDir, template, qualifiedClassName);
+		File binDirFile = new File(rootDir, "bin");
+		ModuleLoader moduleLoader = new ModuleLoader(binDirFile, ClassLoader.getSystemClassLoader());
 		Object instance = null;
 		try {
-			loader.loadClass("AlgorithmTest");
-			Class<?> clazz = loader.loadClass(moduleName);
-			instance = clazz.newInstance();
+			Class<?> insstanceClass = moduleLoader.loadClass(qualifiedClassName);
+			instance = insstanceClass.newInstance();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {

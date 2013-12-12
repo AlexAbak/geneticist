@@ -1,6 +1,6 @@
-package org.deneblingvo.geneticist;
+package org.deneblingvo.geneticist.test;
 
-public interface AlgorithmTest {
+public interface IAlgorithmTestAdd {
 
 	public void set(int v1, int v2);
 
@@ -9,3 +9,4 @@ public interface AlgorithmTest {
 	public void test();
 
 }
+

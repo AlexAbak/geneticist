@@ -15,22 +15,27 @@ import java.io.InputStream;
  */
 public class ModuleLoader extends ClassLoader {
 	 
-	  /**
-	   * Путь до директории с модулями.
-	   */
-	  private String pathtobin;
+	/**
+	 * Путь до директории с модулями.
+	 */
+	private File path;
 	  
-	  public ModuleLoader(String pathtobin, ClassLoader parent) {
-	    super(parent);    
-	    this.pathtobin = pathtobin;    
-	  }
+	public ModuleLoader(File path, ClassLoader parent) {
+		super(parent);    
+		this.path = path;    
+	}
 
-	  @Override
-	  public Class<?> findClass(String className) throws ClassNotFoundException {
-	    try {
-	      String filePath = pathtobin + className + ".class";
-	      byte b[] = fetchClassFromFS(filePath);
-	      return defineClass(className, b, 0, b.length);
+	@Override
+	public Class<?> findClass(String className) throws ClassNotFoundException {
+		try {
+			String[] subPaths = className.split("\\.");
+			String path = this.path.getAbsolutePath();
+			for (String step : subPaths) {
+				path = path + "/" + step;
+			}
+			path = path + ".class";
+			byte b[] = fetchClassFromFS(path);
+			return defineClass(className, b, 0, b.length);
 	    } catch (FileNotFoundException ex) {
 	      return super.findClass(className);
 	    } catch (IOException ex) {
@@ -65,7 +70,7 @@ public class ModuleLoader extends ClassLoader {
 	  
 	    // Ensure all the bytes have been read in
 	    if (offset < bytes.length) {
-	      throw new IOException("Could not completely read file "+path);
+	      throwIOException(path);
 	    }
 	  
 	    // Close the input stream and return bytes
@@ -73,4 +78,8 @@ public class ModuleLoader extends ClassLoader {
 	    return bytes;
 
 	  }
+
+	private void throwIOException(String path) throws IOException {
+		throw new IOException("Could not completely read file "+path);
+	}
 }

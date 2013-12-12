@@ -1,6 +1,6 @@
-package {$package};
+package org.deneblingvo.geneticist.test;
 
-public class {$class} implements IAlgorithmTestAdd {
+public class AlgorithmTestAdd implements IAlgorithmTestAdd {
 
 	private int v1;
 
@@ -18,7 +18,8 @@ public class {$class} implements IAlgorithmTestAdd {
 	}
 
 	public void test() {
-{$code}
+v3 = (v1 + v2);
+
 	}
 
 }
