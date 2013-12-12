@@ -12,6 +12,7 @@ import org.deneblingvo.serialization.xml.Reader;
 import org.deneblingvo.geneticist.Algorithm;
 import org.deneblingvo.geneticist.Operator;
 import org.deneblingvo.geneticist.Parameter;
+import org.deneblingvo.geneticist.Type;
 import edu.android.openfiledialog.OpenFileDialog;
 import javax.xml.XMLConstants;
 import org.xml.sax.helpers.*;
@@ -43,30 +44,26 @@ public class MainActivity extends Activity implements OpenFileDialog.OpenDialogL
 			} else {
 				textView.setText("ok");
 			}
-			Algorithm v1 = this.getVar(1, "integer");
-			Algorithm v2 = this.getVar(2, "integer");
-			Algorithm a = new Algorithm();
-			a.operator = gen.operators.get(0);
-			a.operands = new Vector<Algorithm>();
-			a.operands.add(v1);
-			a.operands.add(v2);
+			Operator v1 = Algorithm.getIntegerInput(1);
+			Operator v2 = Algorithm.getIntegerInput(2);
+			Operator v3 = Algorithm.getIntegerInput(3);
+			Operator oTrue = Algorithm.getConst("true", "boolean");
+			Operator oFalse = Algorithm.getConst("false", "boolean");
+			gen.operators.add(v1);
+			gen.operators.add(v2);
+			gen.operators.add(v3);
+			gen.operators.add(oTrue);
+			gen.operators.add(oFalse);
+			Type type = new Type();
+			type.kind = "void";
+			type.var = false;
+			type.ref = "";
+			Algorithm a = Algorithm.randomAlgorithmCount(gen, type, 0, 10);
 			String str = a.asString();
 			textView.setText(str);
 		} catch (Exception e) {
 			textView.setText("error:" + e.getMessage());
 		}
-	}
-	
-	public Algorithm getVar(int number, String type) {
-		Operator variable = new Operator();
-		variable.name = "v" + number;
-		variable.output = type;
-		variable.parameters = new Vector<Parameter>();
-		variable.format = variable.name;
-		Algorithm algorithm = new Algorithm();
-		algorithm.operator = variable;
-		algorithm.operands = new Vector<Algorithm>();
-		return algorithm;
 	}
 	
 	public void onClick(View v) {
