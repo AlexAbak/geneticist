@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import java.lang.Runtime;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -49,6 +47,10 @@ public class GeneticistTest {
 
 	@Test
 	public void test() throws NoSuchFieldException, SecurityException, InstantiationException, IllegalAccessException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+		File source_dir = new File(System.getProperty("user.dir"));
+		source_dir = new File(source_dir.getParent() + "/source");
+		String absolutePath = source_dir.getAbsolutePath();
+		System.setProperty("user.dir", absolutePath);
 		File file = new File("../xml/geneticist.xml");
 		FileInputStream stream = new FileInputStream(file);
 		Reader reader = new Reader(new XPathFactoryImpl());
@@ -75,10 +77,8 @@ public class GeneticistTest {
 		type.ref = "";
 		Algorithm a = Algorithm.randomAlgorithmCount(object, type, 0, 10);
 		if (a != null) {
-			System.out.println(a.asString());
-			a.asClass("1", "template.java", "src/org/deneblingvo/geneticist/AlgorithmTest1.java");
-			Runtime runtime = Runtime.getRuntime();
-			runtime.exec("javac -classpath src -d bin src/org/deneblingvo/geneticist/AlgorithmTest1.java");
+			System.out.println("ok");
+			Object obj = a.asObject("1", "template.java", "src/org/deneblingvo/geneticist/test/AlgorithmTest1.java");
 		} else {
 			System.out.println("null");
 		}

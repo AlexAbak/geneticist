@@ -5,7 +5,6 @@ package org.deneblingvo.geneticist;
 
 import java.io.*;
 import java.util.*;
-
 /**
  * @author alex
  *
@@ -144,13 +143,13 @@ public class Algorithm
 		InputStreamReader isr = null;
 		try {
 			File f = new File(fileName);
+			f = new File(f.getAbsolutePath());
 			final int length = (int) f.length();
 			if (length != 0) {
 				char[] cbuf = new char[length];
 				isr = new InputStreamReader(new FileInputStream(f), "UTF-8");
 				final int read = isr.read(cbuf);
 				s = new String(cbuf, 0, read);
-				System.out.println(s);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -170,6 +169,7 @@ public class Algorithm
 		FileWriter writeFile = null;
 		try {
 			File logFile = new File(fileName);
+			logFile = new File(logFile.getAbsolutePath());	
 			writeFile = new FileWriter(logFile);
 			writeFile.write(source);
 		} catch (IOException e) {
@@ -185,11 +185,61 @@ public class Algorithm
 		}
 	}
 
-	public void asClass(String number, String template, String result) throws IOException {
+	public void asJava(String number, String template, String result) {
 		String s = FileToString(template);
 		s = s.replace("{$number}", number);
 		s = s.replace("{$code}", this.asString());
 		StringToFile(result, s);
+	}
+
+	public void asClass(String number, String template, String result) {
+		this.asJava(number, template, result);
+		try {
+			File source_dir = new File(System.getProperty("user.dir"));
+			File bin_dir = new File(source_dir.getAbsolutePath() + "/bin");
+			bin_dir.mkdir();
+			ProcessBuilder procBuilder = new ProcessBuilder("javac", "-classpath", "src", "-d", "bin", result);
+			procBuilder.directory(source_dir);
+			procBuilder.redirectErrorStream(true);
+			Process process = procBuilder.start();
+			InputStream stdout = process.getInputStream();
+			InputStreamReader isrStdout = new InputStreamReader(stdout);
+			BufferedReader brStdout = new BufferedReader(isrStdout);
+			String line = null;
+			while((line = brStdout.readLine()) != null) {
+				System.out.println(line);
+			}
+			process.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Object asObject(String number, String template, String result) {
+		//this.asClass(number, template, result);
+		File sourceDir = new File(System.getProperty("user.dir"));
+		File binDir = new File(sourceDir.getAbsolutePath() + "/bin");
+		File resultFile = new File(sourceDir.getAbsolutePath() + "/" + result);
+		//String modulePath = binDir.getAbsolutePath();
+		String modulePath = resultFile.getParent().replace("src", "bin") + "/";
+		String module = resultFile.getName();
+		String moduleName = module.split(".java")[0];
+		ModuleLoader loader = new ModuleLoader(modulePath, ClassLoader.getSystemClassLoader());
+		Object instance = null;
+		try {
+			loader.loadClass("AlgorithmTest");
+			Class<?> clazz = loader.loadClass(moduleName);
+			instance = clazz.newInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return instance;
 	}
 
 }
