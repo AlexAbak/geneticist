@@ -1,15 +1,10 @@
 package org.deneblingvo.geneticist.test;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Vector;
 
-import net.sf.saxon.xpath.XPathFactoryImpl;
-
-import org.deneblingvo.geneticist.Geneticist;
-import org.deneblingvo.serialization.xml.Reader;
 import org.deneblingvo.geneticist.Operator;
 import org.deneblingvo.geneticist.Algorithm;
 import org.deneblingvo.geneticist.Type;
@@ -25,19 +20,14 @@ import org.junit.Test;
  */
 public class AlgorithmTest {
 
-	private Geneticist geneticist;
+	private GeneticistMock geneticistMock;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		File file = new File("../xml/geneticist.xml");
-		FileInputStream stream = new FileInputStream(file);
-		Reader reader = new Reader(new XPathFactoryImpl());
-		this.geneticist = new Geneticist();
-		reader.read(stream, this.geneticist);
-		stream.close();
+		this.geneticistMock = new GeneticistMock(true);
 	}
 
 	/**
@@ -55,11 +45,11 @@ public class AlgorithmTest {
 		Algorithm a1 = Algorithm.getOperator(v1);
 		Algorithm a2 = Algorithm.getOperator(v2);
 		Algorithm a3 = Algorithm.getOperator(v3);
-		Algorithm addition = Algorithm.getOperator(this.geneticist.operators.get(17));
+		Algorithm addition = Algorithm.getOperator(this.geneticistMock.getGeneticist().operators.get(17));
 		addition.operands.add(a1);
 		addition.operands.add(a2);
-		Algorithm assignment = Algorithm.getOperator(this.geneticist.operators.get(0));
-		assignment.operator = this.geneticist.operators.get(0);
+		Algorithm assignment = Algorithm.getOperator(this.geneticistMock.getGeneticist().operators.get(0));
+		assignment.operator = this.geneticistMock.getGeneticist().operators.get(0);
 		assignment.operands = new Vector<Algorithm>();
 		assignment.operands.add(addition);
 		assignment.operands.add(a3);
@@ -81,16 +71,16 @@ public class AlgorithmTest {
 			Operator v3 = Algorithm.getIntegerInput(3);
 			Operator bTrue = Algorithm.getConst("true", "boolean");
 			Operator bFalse = Algorithm.getConst("false", "boolean");
-			this.geneticist.operators.add(v1);
-			this.geneticist.operators.add(v2);
-			this.geneticist.operators.add(v3);
-			this.geneticist.operators.add(bTrue);
-			this.geneticist.operators.add(bFalse);
+			this.geneticistMock.getGeneticist().operators.add(v1);
+			this.geneticistMock.getGeneticist().operators.add(v2);
+			this.geneticistMock.getGeneticist().operators.add(v3);
+			this.geneticistMock.getGeneticist().operators.add(bTrue);
+			this.geneticistMock.getGeneticist().operators.add(bFalse);
 			Type type = new Type();
 			type.kind = "void";
 			type.var = false;
 			type.ref = "";
-			Algorithm a = Algorithm.randomAlgorithmCount(this.geneticist, type, 0, 10);
+			Algorithm a = Algorithm.randomAlgorithmCount(this.geneticistMock.getGeneticist(), type, 0, 10);
 			Assert.assertNotNull(a);
 			String userDir = System.getProperty("user.dir");
 			File userDirFile = new File(userDir).getCanonicalFile();

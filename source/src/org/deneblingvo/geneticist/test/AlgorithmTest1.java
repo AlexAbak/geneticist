@@ -18,8 +18,11 @@ public class AlgorithmTest1 implements IAlgorithmTestAdd {
 	}
 
 	public void test() {
-while (((((+(v3 % ((--v1) & (-(v1>>>1))))) % (((((((false == false)) ? (--v2) : (-v1)) | ((~v3) + (v2 + v3))) & (--v2)) | ((((v1>>1) % (-v2)) % ((v3>>1) * (v1 / v3))) * (~(~(v1<<1)))))>>>1)) > (++v2)) != (!((((((++v3) + ((v3 % v2) / (v2--))) - (v3 * v1)) + v3)<<1) >= ((((((v2++)<<1) + (v1 % (v1++)))>>1) - (v2--)) & v3))))) {
-	v1 = (v1++);
+if (false) {
+	v2 = (v3--);
+
+} else {
+	v2 = v3;
 
 }
 

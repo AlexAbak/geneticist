@@ -1,536 +1,560 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gen:geneticist xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://deneblingvo.org/xsd/geneticist/1.0 geneticist.xsd ">
-	<gen:operators>
+<gen:geneticist xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://deneblingvo.org/xsd/geneticist/1.0 geneticist.xsd ">
 
+	<gen:types>
+		<gen:type name="void">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="void"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="byte">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="byte"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="char">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="byte"/>
+				<gen:acceptableType name="char"/>
+				<gen:acceptableType name="short"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="short">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="byte"/>
+				<gen:acceptableType name="char"/>
+				<gen:acceptableType name="short"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="int">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="byte"/>
+				<gen:acceptableType name="char"/>
+				<gen:acceptableType name="short"/>
+				<gen:acceptableType name="int"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="long">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="byte"/>
+				<gen:acceptableType name="char"/>
+				<gen:acceptableType name="short"/>
+				<gen:acceptableType name="int"/>
+				<gen:acceptableType name="long"/>
+				<gen:acceptableType name="integer"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="integer">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="byte"/>
+				<gen:acceptableType name="char"/>
+				<gen:acceptableType name="short"/>
+				<gen:acceptableType name="int"/>
+				<gen:acceptableType name="long"/>
+				<gen:acceptableType name="integer"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="float">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="float"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="double">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="float"/>
+				<gen:acceptableType name="double"/>
+				<gen:acceptableType name="floating"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="floating">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="float"/>
+				<gen:acceptableType name="double"/>
+				<gen:acceptableType name="floating"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="boolean">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="boolean"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="primitive">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="integer"/>
+				<gen:acceptableType name="floating"/>
+				<gen:acceptableType name="boolean"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="String">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="String"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="Object">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="String"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="allType">
+			<gen:acceptableTypes>
+				<gen:acceptableType name="primitive"/>
+				<gen:acceptableType name="Object"/>
+			</gen:acceptableTypes>
+		</gen:type>
+		<gen:type name="ref">
+			<gen:acceptableTypes>
+				<!-- Применяется особый механизм -->
+			</gen:acceptableTypes>
+		</gen:type>
+	</gen:types>
+
+	<gen:operators>
 		<gen:operator name="assignment">
-			<gen:parameters >
+			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="all" />
+					<gen:requirement type="allType" isWrite="false" isRead="true" />
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="ref" ref="first" var="true" />
+					<gen:requirement type="ref" isWrite="true" isRead="false" ref="first" />
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="void" />
-			<gen:format>{$second} = {$first};
-</gen:format>
+			<gen:requirement type="void" isWrite="false" isRead="false" />
+			<gen:template>{$second} = {$first};
+</gen:template>
+		</gen:operator>
+
+		<gen:operator name="booleanEqual">
+			<gen:parameters>
+				<gen:parameter name="first">
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+				</gen:parameter>
+				<gen:parameter name="second">
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+				</gen:parameter>
+			</gen:parameters>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} == {$second})</gen:template>
+		</gen:operator>
+		<gen:operator name="booleanNotEqual">
+			<gen:parameters>
+				<gen:parameter name="first">
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+				</gen:parameter>
+				<gen:parameter name="second">
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+				</gen:parameter>
+			</gen:parameters>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} != {$second})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="equal">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} == {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} == {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="notEqual">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} != {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} != {$second})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="not">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>(!{$first})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>(!{$first})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="and">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} &amp; {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &amp; {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="or">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} | {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} | {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="andLazy">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} &amp;&amp; {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &amp;&amp; {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="orLazy">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} || {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} || {$second})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="if">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="third">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>(({$first}) ? {$second} : {$third})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>(({$first}) ? {$second} : {$third})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="positive">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>(+{$first})</gen:format>
+			<gen:requirement type="integer" isWrite="true" isRead="false"/>
+			<gen:template>(+{$first})</gen:template>
 		</gen:operator>
 		<gen:operator name="negative">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>(-{$first})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>(-{$first})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="less">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} &lt; {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &lt; {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="lessOrEqual">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} &lt;= {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &lt;= {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="more">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} &gt; {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &gt; {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="moreOrEqual">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} &gt;= {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &gt;= {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="equal">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} == {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} == {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="notEqual">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="boolean" />
-			<gen:format>({$first} != {$second})</gen:format>
+			<gen:requirement type="boolean" isWrite="false" isRead="true"/>
+			<gen:template>({$first} != {$second})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="addition">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} + {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} + {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="subtraction">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} - {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} - {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="multiplication">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} * {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} * {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="division">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} / {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} / {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="remainder">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} % {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} % {$second})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="prefixIncrement">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" var="true" />
+					<gen:requirement type="integer" isWrite="true" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>(++{$first})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>(++{$first})</gen:template>
 		</gen:operator>
 		<gen:operator name="prefixDecrement">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" var="true" />
+					<gen:requirement type="integer" isWrite="true" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>(--{$first})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>(--{$first})</gen:template>
 		</gen:operator>
 		<gen:operator name="postfixIncrement">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" var="true" />
+					<gen:requirement type="integer" isWrite="true" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first}++)</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first}++)</gen:template>
 		</gen:operator>
 		<gen:operator name="postfixDecrement">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" var="true" />
+					<gen:requirement type="integer" isWrite="true" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first}--)</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first}--)</gen:template>
 		</gen:operator>
 
 		<gen:operator name="shiftLeft">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first}&lt;&lt;1)</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first}&lt;&lt;1)</gen:template>
 		</gen:operator>
 		<gen:operator name="shiftRight">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first}&gt;&gt;1)</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first}&gt;&gt;1)</gen:template>
 		</gen:operator>
 		<gen:operator name="shiftRightSigned">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first}&gt;&gt;&gt;1)</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first}&gt;&gt;&gt;1)</gen:template>
 		</gen:operator>
 
 		<gen:operator name="not">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>(~{$first})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>(~{$first})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="and">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} &amp; {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} &amp; {$second})</gen:template>
 		</gen:operator>
 		<gen:operator name="or">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>({$first} | {$second})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>({$first} | {$second})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="if">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="third">
-					<gen:type kind="integer" />
+					<gen:requirement type="integer" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="integer" />
-			<gen:format>(({$first}) ? {$second} : {$third})</gen:format>
+			<gen:requirement type="integer" isWrite="false" isRead="true"/>
+			<gen:template>(({$first}) ? {$second} : {$third})</gen:template>
 		</gen:operator>
 
 		<gen:operator name="if">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="void" />
+					<gen:requirement type="void" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="third">
-					<gen:type kind="void" />
+					<gen:requirement type="void" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="void" />
-			<gen:format>if ({$first}) {
+			<gen:requirement type="void" isWrite="false" isRead="true"/>
+			<gen:template>if ({$first}) {
 	{$second}
 } else {
 	{$third}
 }
-</gen:format>
+</gen:template>
 		</gen:operator>
 		<gen:operator name="while">
 			<gen:parameters>
 				<gen:parameter name="first">
-					<gen:type kind="boolean" />
+					<gen:requirement type="boolean" isWrite="false" isRead="true"/>
 				</gen:parameter>
 				<gen:parameter name="second">
-					<gen:type kind="void" />
+					<gen:requirement type="void" isWrite="false" isRead="true"/>
 				</gen:parameter>
 			</gen:parameters>
-			<gen:output kind="void" />
-			<gen:format>while ({$first}) {
+			<gen:requirement type="void" isWrite="false" isRead="true"/>
+			<gen:template>while ({$first}) {
 	{$second}
 }
-</gen:format>
+</gen:template>
 		</gen:operator>
 
 	</gen:operators>
-	<gen:connections>
-		<gen:connection>
-			<gen:type kind="void" />
-			<gen:types>
-				<gen:type kind="void" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="byte" />
-			<gen:types>
-				<gen:type kind="byte" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="char" />
-			<gen:types>
-				<gen:type kind="char" />
-				<gen:type kind="byte" />
-				<gen:type kind="short" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="short" />
-			<gen:types>
-				<gen:type kind="char" />
-				<gen:type kind="byte" />
-				<gen:type kind="short" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="int" />
-			<gen:types>
-				<gen:type kind="char" />
-				<gen:type kind="byte" />
-				<gen:type kind="short" />
-				<gen:type kind="int" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="long" />
-			<gen:types>
-				<gen:type kind="char" />
-				<gen:type kind="byte" />
-				<gen:type kind="short" />
-				<gen:type kind="int" />
-				<gen:type kind="long" />
-				<gen:type kind="integer" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="integer" />
-			<gen:types>
-				<gen:type kind="char" />
-				<gen:type kind="byte" />
-				<gen:type kind="short" />
-				<gen:type kind="int" />
-				<gen:type kind="long" />
-				<gen:type kind="integer" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="float" />
-			<gen:types>
-				<gen:type kind="float" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="double" />
-			<gen:types>
-				<gen:type kind="float" />
-				<gen:type kind="double" />
-				<gen:type kind="floating" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="floating" />
-			<gen:types>
-				<gen:type kind="float" />
-				<gen:type kind="double" />
-				<gen:type kind="floating" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="boolean" />
-			<gen:types>
-				<gen:type kind="boolean" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="String" />
-			<gen:types>
-				<gen:type kind="String" />
-			</gen:types>
-		</gen:connection>
-		<gen:connection>
-			<gen:type kind="all" />
-			<gen:types>
-				<gen:type kind="char" />
-				<gen:type kind="byte" />
-				<gen:type kind="short" />
-				<gen:type kind="int" />
-				<gen:type kind="long" />
-				<gen:type kind="integer" />
-				<gen:type kind="float" />
-				<gen:type kind="double" />
-				<gen:type kind="floating" />
-				<gen:type kind="boolean" />
-				<gen:type kind="String" />
-			</gen:types>
-		</gen:connection>
-	</gen:connections>
+
 </gen:geneticist>

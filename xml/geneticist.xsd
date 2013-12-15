@@ -1,85 +1,225 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://deneblingvo.org/xsd/geneticist/1.0" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0">
+<xsd:schema targetNamespace="http://deneblingvo.org/xsd/geneticist/1.0" 
+            elementFormDefault="qualified" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0">
 
-    <element name="geneticist" type="gen:geneticist"></element>
+    <xsd:element name="geneticist" 
+                 type="gen:geneticist">
 
-    <complexType name="geneticist">
-    	<sequence>
-    		<element name="operators" type="gen:operators"></element>
-    		<element name="connections" type="gen:connections"></element>
-    	</sequence>
-    </complexType>
+    	<xsd:annotation>
+    		<xsd:documentation>Настройки Генетика</xsd:documentation>
+    	</xsd:annotation>
 
-    <complexType name="operators">
-    	<sequence minOccurs="1" maxOccurs="unbounded">
-    		<element name="operator" type="gen:operator"></element>
-    	</sequence>
-    </complexType>
+    	<xsd:unique name="typeName">
+    		<xsd:selector xpath="gen:geneticist/gen:types/gen:type" />
+    		<xsd:field xpath="@name" />
+    	</xsd:unique>
 
-    <complexType name="operator">
-    	<sequence>
-    		<element name="parameters" type="gen:parameters"></element>
-    		<element name="output" type="gen:type"></element>
-    		<element name="format" type="string"></element>
-    	</sequence>
-    	<attribute name="name" type="string" use="required"></attribute>
-    </complexType>
+    	<xsd:key name="typeNameKey">
+    		<xsd:selector xpath="gen:geneticist/gen:types/gen:type" />
+    		<xsd:field xpath="@name" />
+    	</xsd:key>
 
-    <complexType name="parameters">
-    	<sequence minOccurs="1" maxOccurs="unbounded">
-    		<element name="parameter" type="gen:parameter"></element>
-    	</sequence>
-    </complexType>
+    	<xsd:keyref name="typeNameRef" refer="gen:typeNameKey">
+    		<xsd:selector
+    			xpath="gen:geneticist/gen:types/gen:type/gen:acceptableTypes/gen:acceptableType" />
+    		<xsd:field xpath="@name" />
+    	</xsd:keyref>
 
-    <complexType name="parameter">
-    	<sequence>
-    		<element name="type" type="gen:type"></element>
-    	</sequence>
-    	<attribute name="name" type="string" use="required"></attribute>
-    </complexType>
+    </xsd:element>
 
-    <complexType name="connections">
-    	<sequence minOccurs="1" maxOccurs="unbounded">
-    		<element name="connection" type="gen:connection"></element>
-    	</sequence>
-    </complexType>
+    <xsd:complexType name="geneticist">
+        <xsd:annotation>
+        	<xsd:documentation>Корневой элемент настроек Генетика</xsd:documentation>
+		</xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="types" 
+			             type="gen:types">
+				<xsd:annotation>
+					<xsd:documentation>Список типов которые могут использоваться Генетиком</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+    		<xsd:element name="operators" 
+			             type="gen:operators">
+				<xsd:annotation>
+					<xsd:documentation>Список операторов которые могут использоваться Генетиком</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+    </xsd:complexType>
 
-    <complexType name="connection">
-    	<sequence>
-    		<element name="type" type="gen:type"></element>
-    		<element name="types" type="gen:types"></element>
-    	</sequence>
-    </complexType>
+    <xsd:complexType name="types">
+		<xsd:annotation>
+			<xsd:documentation>Список типов которые могут использоваться Генетиком</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:sequence minOccurs="1" 
+    	              maxOccurs="unbounded">
+    		<xsd:element name="type" 
+    		             type="gen:type">
+    			<xsd:annotation>
+    				<xsd:documentation>Тип используемый Генетиком</xsd:documentation>
+    			</xsd:annotation>
+			</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
 
-    <complexType name="types">
-    	<sequence minOccurs="1" maxOccurs="unbounded">
-    		<element name="type" type="gen:type"></element>
-    	</sequence>
-    </complexType>
+    <xsd:complexType name="type">
+    	<xsd:annotation>
+    		<xsd:documentation>Тип используемый Генетиком</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:sequence>
+    		<xsd:element name="acceptableTypes" 
+    		             type="gen:acceptableTypes">
+    			<xsd:annotation>
+    				<xsd:documentation>Список типов расширяемых до указанного</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="name" 
+    	               type="xsd:string"
+    	               use="required">
+    		<xsd:annotation>
+    			<xsd:documentation>Уникальное имя типа</xsd:documentation>
+    		</xsd:annotation>
+    	</xsd:attribute>
+    </xsd:complexType>
 
-    <complexType name="type">
-    	<attribute name="kind" type="gen:kind" use="required"></attribute>
-    	<attribute name="var" type="boolean"></attribute>
-    	<attribute name="ref" type="string"></attribute>
-    </complexType>
+    <xsd:complexType name="acceptableTypes">
+		<xsd:annotation>
+			<xsd:documentation>Список типов расширяемых до указанного</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:sequence minOccurs="0" 
+    	              maxOccurs="unbounded">
+    		<xsd:element name="acceptableType" 
+    		             type="gen:acceptableType">
+    			<xsd:annotation>
+    				<xsd:documentation>Тип расширяемый до указанного</xsd:documentation>
+    			</xsd:annotation>
+			</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
 
-    <simpleType name="kind">
-    	<restriction base="string">
-    		<enumeration value="void"></enumeration>
-    		<enumeration value="byte"></enumeration>
-    		<enumeration value="short"></enumeration>
-    		<enumeration value="int"></enumeration>
-    		<enumeration value="long"></enumeration>
-    		<enumeration value="char"></enumeration>
-    		<enumeration value="integer"></enumeration>
-    		<enumeration value="float"></enumeration>
-    		<enumeration value="double"></enumeration>
-    		<enumeration value="floating"></enumeration>
-    		<enumeration value="boolean"></enumeration>
-    		<enumeration value="String"></enumeration>
-    		<enumeration value="all"></enumeration>
-    		<enumeration value="ref"></enumeration>
-    	</restriction>
-    </simpleType>
+    <xsd:complexType name="acceptableType">
+    	<xsd:annotation>
+    		<xsd:documentation>Тип расширяемый до указанного</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:attribute name="name" 
+    	               type="xsd:string" 
+    	               use="required">
+    		<xsd:annotation>
+    			<xsd:documentation>Уникальное имя типа</xsd:documentation>
+    		</xsd:annotation>
+    	</xsd:attribute>
+    </xsd:complexType>
 
-</schema>
+    <xsd:complexType name="operators">
+		<xsd:annotation>
+			<xsd:documentation>Список операторов которые могут использоваться Генетиком</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+    		<xsd:element name="operator" type="gen:operator">
+				<xsd:annotation>
+					<xsd:documentation>Оператор используемый Генетиком</xsd:documentation>
+				</xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="operator">
+		<xsd:annotation>
+			<xsd:documentation>Оператор используемый Генетиком</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:sequence>
+    		<xsd:element name="parameters" 
+    		             type="gen:parameters">
+				<xsd:annotation>
+					<xsd:documentation>Параметры оператора</xsd:documentation>
+				</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="requirement" 
+			             type="gen:requirement">
+				<xsd:annotation>
+					<xsd:documentation>Требования которым удовлетворяет оператор</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+     		<xsd:element name="template" 
+     		             type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Шаблон текста оператора</xsd:documentation>
+				</xsd:annotation>
+     		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="name" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Уникальное имя оператора</xsd:documentation>
+			</xsd:annotation>
+    	</xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="parameters">
+		<xsd:annotation>
+			<xsd:documentation>Параметры оператора</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:sequence minOccurs="1" 
+    	              maxOccurs="unbounded">
+    		<xsd:element name="parameter" 
+    		             type="gen:parameter">
+				<xsd:annotation>
+					<xsd:documentation>Параметр оператора</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="parameter">
+    	<xsd:sequence>
+    		<xsd:element name="requirement" type="gen:requirement">
+				<xsd:annotation>
+					<xsd:documentation>Требования которым должен соответствовать параметр</xsd:documentation>
+				</xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="name" 
+    	               type="xsd:string" 
+    	               use="required">
+				<xsd:annotation>
+					<xsd:documentation>Имя параметра</xsd:documentation>
+				</xsd:annotation>
+		</xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="requirement">
+		<xsd:annotation>
+			<xsd:documentation>Требования</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:attribute name="type"
+    	               type="xsd:string" 
+    	               use="required">
+    		<xsd:annotation>
+    			<xsd:documentation>Тип используемый Генетиком</xsd:documentation>
+    		</xsd:annotation>
+		</xsd:attribute>
+    	<xsd:attribute name="isRead"
+    	               type="xsd:boolean" 
+    	               use="required">
+    		<xsd:annotation>
+    			<xsd:documentation>Доступность на чтение</xsd:documentation>
+    		</xsd:annotation>
+		</xsd:attribute>
+    	<xsd:attribute name="isWrite"
+    	               type="xsd:boolean" 
+    	               use="required">
+    		<xsd:annotation>
+    			<xsd:documentation>Доступность на запись</xsd:documentation>
+    		</xsd:annotation>
+		</xsd:attribute>
+    	<xsd:attribute name="ref"
+    	               type="xsd:string">
+    		<xsd:annotation>
+    			<xsd:documentation>Ссылка на параметр</xsd:documentation>
+    		</xsd:annotation>
+		</xsd:attribute>
+    </xsd:complexType>
+
+</xsd:schema>
