@@ -1,2 +1,2 @@
 #!/bin/sh
-transformation.jar --file geneticist.den.xml
+transformation.jar --file geneticist.den.xml --debug
