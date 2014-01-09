@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lst:list xmlns:lst="http://deneblingvo.org/xsd/transformator/list/1.0">
+   <xsd:schema xmlns=""
+               xmlns:gen="http://deneblingvo.org/xsd/geneticist/1.0"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               elementFormDefault="qualified"
+               targetNamespace="http://deneblingvo.org/xsd/geneticist/1.0">
+
+		    <xsd:element xmlns="" name="geneticist" type="gen:geneticist">
+
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Настройки Генетика</xsd:documentation>
+			      </xsd:annotation>
+
+			      <xsd:unique xmlns="" name="typeName">
+				        <xsd:selector xmlns="" xpath="gen:geneticist/gen:types/gen:type"/>
+				        <xsd:field xmlns="" xpath="@name"/>
+			      </xsd:unique>
+
+			      <xsd:key xmlns="" name="typeNameKey">
+				        <xsd:selector xmlns="" xpath="gen:geneticist/gen:types/gen:type"/>
+				        <xsd:field xmlns="" xpath="@name"/>
+			      </xsd:key>
+
+			      <xsd:keyref xmlns="" name="typeNameRef" refer="gen:typeNameKey">
+				        <xsd:selector xmlns=""
+                          xpath="gen:geneticist/gen:types/gen:type/gen:acceptableTypes/gen:acceptableType"/>
+				        <xsd:field xmlns="" xpath="@name"/>
+			      </xsd:keyref>
+
+		    </xsd:element>
+
+		    <xsd:complexType xmlns="" name="geneticist">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Корневой элемент настроек Генетика</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="">
+				        <xsd:element xmlns="" name="types" type="gen:types">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Список типов которые могут использоваться Генетиком</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+				        <xsd:element xmlns="" name="operators" type="gen:operators">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Список операторов которые могут использоваться Генетиком</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="types">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Список типов которые могут использоваться Генетиком</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="" maxOccurs="unbounded" minOccurs="1">
+				        <xsd:element xmlns="" name="type" type="gen:type">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Тип используемый Генетиком</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="type">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Тип используемый Генетиком</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="">
+				        <xsd:element xmlns="" name="acceptableTypes" type="gen:acceptableTypes">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Список типов расширяемых до указанного</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+			      <xsd:attribute xmlns="" name="name" type="xsd:string" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Уникальное имя типа</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="acceptableTypes">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Список типов расширяемых до указанного</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="" maxOccurs="unbounded" minOccurs="0">
+				        <xsd:element xmlns="" name="acceptableType" type="gen:acceptableType">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Тип расширяемый до указанного</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="acceptableType">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Тип расширяемый до указанного</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:attribute xmlns="" name="name" type="xsd:string" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Уникальное имя типа</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="operators">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Список операторов которые могут использоваться Генетиком</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="" maxOccurs="unbounded" minOccurs="1">
+				        <xsd:element xmlns="" name="operator" type="gen:operator">
+				           <xsd:annotation xmlns="">
+					             <xsd:documentation xmlns="">Оператор используемый Генетиком</xsd:documentation>
+				           </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="operator">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Оператор используемый Генетиком</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="">
+				        <xsd:element xmlns="" name="parameters" type="gen:parameters">
+				           <xsd:annotation xmlns="">
+					             <xsd:documentation xmlns="">Параметры оператора</xsd:documentation>
+				           </xsd:annotation>
+				        </xsd:element>
+				        <xsd:element xmlns="" name="requirement" type="gen:requirement">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Требования которым удовлетворяет оператор</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+				        <xsd:element xmlns="" name="template" type="xsd:string">
+					          <xsd:annotation xmlns="">
+						            <xsd:documentation xmlns="">Шаблон текста оператора</xsd:documentation>
+					          </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+			      <xsd:attribute xmlns="" name="name" type="xsd:string" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Уникальное имя оператора</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="parameters">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Параметры оператора</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:sequence xmlns="" maxOccurs="unbounded" minOccurs="1">
+				        <xsd:element xmlns="" name="parameter" type="gen:parameter">
+				           <xsd:annotation xmlns="">
+					             <xsd:documentation xmlns="">Параметр оператора</xsd:documentation>
+				           </xsd:annotation>
+			         </xsd:element>
+			      </xsd:sequence>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="parameter">
+			      <xsd:sequence xmlns="">
+				        <xsd:element xmlns="" name="requirement" type="gen:requirement">
+				           <xsd:annotation xmlns="">
+					             <xsd:documentation xmlns="">Требования которым должен соответствовать параметр</xsd:documentation>
+				           </xsd:annotation>
+				        </xsd:element>
+			      </xsd:sequence>
+			      <xsd:attribute xmlns="" name="name" type="xsd:string" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Имя параметра</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+		    </xsd:complexType>
+
+		    <xsd:complexType xmlns="" name="requirement">
+			      <xsd:annotation xmlns="">
+				        <xsd:documentation xmlns="">Требования</xsd:documentation>
+			      </xsd:annotation>
+			      <xsd:attribute xmlns="" name="type" type="xsd:string" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Тип используемый Генетиком</xsd:documentation>
+				        </xsd:annotation>
+		       </xsd:attribute>
+			      <xsd:attribute xmlns="" name="isRead" type="xsd:boolean" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Доступность на чтение</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+			      <xsd:attribute xmlns="" name="isWrite" type="xsd:boolean" use="required">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Доступность на запись</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+			      <xsd:attribute xmlns="" name="ref" type="xsd:string">
+				        <xsd:annotation xmlns="">
+					          <xsd:documentation xmlns="">Ссылка на параметр</xsd:documentation>
+				        </xsd:annotation>
+			      </xsd:attribute>
+		    </xsd:complexType>
+
+   </xsd:schema>
+</lst:list>

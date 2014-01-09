@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dst:destination xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0">
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/package-info.java"
+             text="true">/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Настройки Генетика
+ */
+package org.deneblingvo.geneticist.settings;</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Geneticist.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Корневой элемент настроек Генетика
+ */
+
+public interface Geneticist {
+
+	/**
+	 * Список типов которые могут использоваться Генетиком
+	 */
+	public Types getTypes();
+
+	/**
+	 * Список операторов которые могут использоваться Генетиком
+	 */
+	public Operators getOperators();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Types.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Список типов которые могут использоваться Генетиком
+ */
+
+import java.util.Vector;
+
+public interface Types {
+
+	/**
+	 * Тип используемый Генетиком
+	 */
+	public Vector&lt;Type&gt; getType();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Type.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Тип используемый Генетиком
+ */
+
+public interface Type {
+
+	/**
+	 * Уникальное имя типа
+	 */
+	public String getName();
+
+	/**
+	 * Список типов расширяемых до указанного
+	 */
+	public AcceptableTypes getAcceptableTypes();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/AcceptableTypes.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Список типов расширяемых до указанного
+ */
+
+import java.util.Vector;
+
+public interface AcceptableTypes {
+
+	/**
+	 * Тип расширяемый до указанного
+	 */
+	public Vector&lt;AcceptableType&gt; getAcceptableType();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/AcceptableType.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Тип расширяемый до указанного
+ */
+
+public interface AcceptableType {
+
+	/**
+	 * Уникальное имя типа
+	 */
+	public String getName();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Operators.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Список операторов которые могут использоваться Генетиком
+ */
+
+import java.util.Vector;
+
+public interface Operators {
+
+	/**
+	 * Оператор используемый Генетиком
+	 */
+	public Vector&lt;Operator&gt; getOperator();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Operator.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Оператор используемый Генетиком
+ */
+
+public interface Operator {
+
+	/**
+	 * Уникальное имя оператора
+	 */
+	public String getName();
+
+	/**
+	 * Параметры оператора
+	 */
+	public Parameters getParameters();
+
+	/**
+	 * Требования которым удовлетворяет оператор
+	 */
+	public Requirement getRequirement();
+
+	/**
+	 * Шаблон текста оператора
+	 */
+	public String getTemplate();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Parameters.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Параметры оператора
+ */
+
+import java.util.Vector;
+
+public interface Parameters {
+
+	/**
+	 * Параметр оператора
+	 */
+	public Vector&lt;Parameter&gt; getParameter();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Parameter.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * 
+ */
+
+public interface Parameter {
+
+	/**
+	 * Имя параметра
+	 */
+	public String getName();
+
+	/**
+	 * Требования которым должен соответствовать параметр
+	 */
+	public Requirement getRequirement();
+
+
+}</dst:file>
+   <dst:file xmlns:dst="http://deneblingvo.org/xsd/transformator/destination/1.0"
+             href="../package/src/org/deneblingvo/geneticist/settings/Requirement.java"
+             text="true">package org.deneblingvo.geneticist.settings;
+
+/**
+ * @author Алексей Кляузер &lt;drum@pisem.net&gt; 
+ * Требования
+ */
+
+public interface Requirement {
+
+	/**
+	 * Тип используемый Генетиком
+	 */
+	public String getType();
+
+	/**
+	 * Доступность на чтение
+	 */
+	public boolean getIsRead();
+
+	/**
+	 * Доступность на запись
+	 */
+	public boolean getIsWrite();
+
+	/**
+	 * Ссылка на параметр
+	 */
+	public String getRef();
+
+
+}</dst:file>
+</dst:destination>

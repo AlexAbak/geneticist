@@ -9,6 +9,7 @@
 				exclude-result-prefixes="#all">
 
 	<xsl:import href="package-info.java.xsl"/>
+	<xsl:import href="interface.java.xsl"/>
 
 	<xsl:output method="xml" 
 	            version="1.0"
@@ -56,36 +57,11 @@
 					namespace="http://deneblingvo.org/xsd/transformator/destination/1.0">
 					<xsl:attribute name="href">../package/src/org/deneblingvo/geneticist/settings/<xsl:value-of select="dst:upper-first(@name)" />.java</xsl:attribute>
 					<xsl:attribute name="text">true</xsl:attribute>
-<!-- 
-package org.deneblingvo.geneticist.settings;
-					<xsl:if test="xsd:sequence[@minOccurs]/xsd:element">
-import java.util.Vector;
-					</xsl:if>
-/**
- * <xsl:value-of select="xsd:annotation/xsd:documentation" />
- * @author Алексей Кляузер &lt;drum@pisem.net&gt;
- */
-public interface <xsl:value-of select="dst:upper-first(@name)" /> {
-					<xsl:for-each select="xsd:attribute">
-	/**
-	 * <xsl:value-of select="xsd:annotation/xsd:documentation" />
-	 */
-	public <xsl:value-of select="dst:type-name(@type,'')" /> get<xsl:value-of select="dst:upper-first(@name)" />();
-					</xsl:for-each>
-					<xsl:for-each select="xsd:sequence[not(@minOccurs)]/xsd:element">
-	/**
-	 * <xsl:value-of select="xsd:annotation/xsd:documentation" />
-	 */
-	public <xsl:value-of select="dst:type-name(@type,'')" /> get<xsl:value-of select="dst:upper-first(@name)" />();
-					</xsl:for-each>
-					<xsl:for-each select="xsd:sequence[@minOccurs]/xsd:element">
-	/**
-	 * <xsl:value-of select="xsd:annotation/xsd:documentation" />
-	 */
-	public Vector&lt;<xsl:value-of select="dst:type-name(@type,'')" />&gt; get<xsl:value-of select="dst:upper-first(@name)" />();
-					</xsl:for-each>
-}
- -->
+					<xsl:call-template name="interface">
+						<xsl:with-param name="name"><xsl:value-of select="dst:upper-first(@name)" /></xsl:with-param>
+						<xsl:with-param name="documentation"><xsl:value-of select="xsd:annotation/xsd:documentation" /></xsl:with-param>
+						<xsl:with-param name="content"><xsl:copy-of select="current()" /></xsl:with-param>
+					</xsl:call-template>
 				</xsl:element>
 			</xsl:for-each>
 <!-- 
